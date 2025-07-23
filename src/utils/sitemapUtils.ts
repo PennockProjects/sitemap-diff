@@ -1,6 +1,6 @@
-import { diffArrays } from './arrayUtils.ts';
-import { fetchSitemap } from './sitemapFetch.ts';
-import { parsePaths } from './sitemapParse.ts';
+import { diffArrays } from './arrayUtils';
+import { fetchSitemap } from './sitemapFetch';
+import { parsePaths } from './sitemapParse';
 
 /**
  * Process a sitemap file: read, parse, and extract paths

@@ -1,6 +1,6 @@
-import { isValidFilePath, readLocalFile } from './fileUtils.ts';
-import { fetchTextFromUrlFile } from './urlUtils.ts';
-import { fetchFromS3 } from './awsS3Utils.ts';
+import { isValidFilePath, readLocalFile } from './fileUtils';
+import { fetchTextFromUrlFile } from './urlUtils';
+import { fetchFromS3 } from './awsS3Utils';
 
 /**
  * Get the XML content from a sitemap file, which can be a local file, a URL, or an S3 bucket.

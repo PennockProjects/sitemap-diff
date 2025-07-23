@@ -2,10 +2,11 @@ import typescript from 'rollup-plugin-typescript2';
 import del from 'rollup-plugin-delete';
 
 export default {
+  external: ['fs', 'node-fetch', '@aws-sdk/client-s3', 'fast-xml-parser'], // External dependencies that should not be bundled
   input: 'src/index.ts',         // Entry point of the library
   output: [
     {
-      file: 'lib/index.js',      // Output file for CommonJS format
+      file: 'lib/index.cjs',     // Output file for CommonJS format
       format: 'cjs',
       sourcemap: true,           // Generate source maps
     },

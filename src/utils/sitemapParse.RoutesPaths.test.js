@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseRoutes, parsePaths } from './sitemapParse.ts';
+import { parseRoutes, parsePaths } from './sitemapParse';
 
 describe('parseRoutes', () => {
   it('should extract valid routes from a sitemap XML', () => {

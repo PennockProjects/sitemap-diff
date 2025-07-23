@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseValidate } from './sitemapParse.ts';
+import { parseValidate } from './sitemapParse';
 
 describe('parseValidate', () => {
   it('should return the parsed file for a valid sitemap XML', () => {

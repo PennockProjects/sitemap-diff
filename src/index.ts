@@ -1,1 +1,1 @@
-export { fetchParsePaths, parseRoutes } from './utils/sitemapUtils';
+export { fetchParsePaths, pathsDiff } from './utils/sitemapUtils';
