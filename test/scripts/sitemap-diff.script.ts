@@ -1,5 +1,5 @@
-import { isValidFilePath, writeJsonToFile } from '../src/utils/fileUtils.ts';
-import { pathsDiff } from '../src/utils/sitemapUtils.ts';
+import { isValidFilePath, writeJsonToFile } from '../../src/utils/fileUtils.ts';
+import { pathsDiff } from '../../src/utils/sitemapUtils.ts';
 
 // Main script execution
 // Print the program title
