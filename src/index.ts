@@ -1,0 +1,1 @@
+export { fetchParsePaths, parseRoutes } from './utils/sitemapUtils';

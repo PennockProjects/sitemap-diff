@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig to read more about this file */
+    "allowImportingTsExtensions": true,         /* Allow importing files with .ts extensions. */
+    "declaration": true,                        /* Generate corresponding '.d.ts' file. */
+    "declarationDir": "lib/types",              /* Specify the output directory for generated declaration files. */
+    "esModuleInterop": true,
+    "moduleResolution": "node",                 /* Specify how TypeScript looks up a file from a given module specifier. */
+    "target": "es6",                            /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "types": [
+      "node",                                   /* Include Node.js type definitions. */
+      "vitest"                                  /* Include Vitest type definitions for testing. */
+    ],
+  },
+  "include": [
+    "src/**/*"                                  /* Include all TypeScript files in the src directory. */
+  ],
+  "exclude": [
+    "node_modules",                             /* Exclude the node_modules directory. */
+    "lib"                                       /* Exclude the lib directory where compiled files are stored. */
+  ]
+}
