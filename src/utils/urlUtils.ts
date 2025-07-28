@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 /**
  * Fetch file from a URL
  * @param url - The URL of the file which should include the extension, e.g., https://example.com/sitemap.xml

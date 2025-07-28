@@ -28,6 +28,8 @@ export async function fetchSitemap(sitemapPath: string): Promise<string | null> 
     console.log(`\t${sitemapPath} - Reading local file`);
     return readLocalFile(parsedPath.fileLocationString);
   }
+
+  return null;
 }
 
 export function parseSitemapPath(sitemapPath: string): {

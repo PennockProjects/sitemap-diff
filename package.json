@@ -1,25 +1,11 @@
 {
   "name": "@pennockprojects/sitemap-diff",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Finds the differences between two sitemap.xml files located on a local file system, at a web http server, or on an Amazon AWS S3 storage bucket",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PennockProjects/sitemap-diff.git"
   },
-  "keywords": [
-    "sitemap",
-    "sitemap.xml",
-    "route path comparison",
-    "sitemap diff",
-    "sitemap difference",
-    "sitemap comparison",
-    "sitemap diff utility",
-    "sitemap difference utility",
-    "sitemap diff CLI",
-    "sitemap difference CLI",
-    "sitemap diff API",
-    "sitemap difference API"
-  ],
   "author": {
     "name": "John Pennock",
     "email": "info@pennockprojects.com",
@@ -49,33 +35,37 @@
     "build": "rollup -c",
     "release-package": "npm run build && npx changeset publish",
     "test": "vitest",
-    "test:coverage": "vitest --coverage",
-    "test1": "node --experimental-strip-types ./test/scripts/sitemap-diff.script.ts ./test/input/ppsite0716.xml https://pennockprojects.com/sitemap.xml ./test/output/ppsitediff.json",
-    "test2": "node --experimental-strip-types ./test/scripts/sitemap-diff.script.ts ./test/input/ppsite0716.xml s3://pennockprojects.com/sitemap.xml",
-    "test3": "node --experimental-strip-types ./test/scripts/sitemap-diff.script.ts https://pennockprojects.com/sitemap.xml s3://pennockprojects.com/sitemap.xml",
-    "test4": "node --experimental-strip-types ./test/scripts/sitemap-diff.script.ts ./test/input/sitemap1.xml ./test/input/sitemap2.xml",
-    "test5": "node --experimental-strip-types ./test/scripts/sitemap-diff.script.ts ./test/input/sitemap3.xml ./test/input/sitemap4.xml",
-    "test6": "node --experimental-strip-types ./test/scripts/sitemap-diff.script.ts ./test/input/sitemap_index12.xml ./test/input/sitemap_index34.xml",
-    "testDate": "node --experimental-strip-types ./test/scripts/sitemap-diff.script.ts ./test/input/sitemapBadDate.xml ./test/input/sitemapGood.xml",
-    "testLoc": "node --experimental-strip-types ./test/scripts/sitemap-diff.script.ts ./test/input/sitemapBadLoc.xml ./test/input/sitemapGood.xml",
-    "test9": "node --experimental-strip-types ./test/scripts/sitemap-diff.script.ts ./test/input/sitemapBadTag.xml ./test/input/sitemapGood.xml",
-    "test10": "node --experimental-strip-types ./test/scripts/sitemap-diff.script.ts ./test/input/sitemapBadDate.xml ./test/input/sitemapBadTag.xml",
-    "test11": "node --experimental-strip-types ./test/scripts/sitemap-diff.script.ts ./test/input/sitemapGood.xml ./test/input/sitemapBadTag.xml"
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.844.0",
     "fast-xml-parser": "^5.2.5",
-    "fs": "^0.0.1-security",
-    "node-fetch": "^3.3.2"
+    "fs": "^0.0.1-security"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.850.0",
+    "@aws-sdk/lib-storage": "^3.850.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@types/node": "^24.0.13",
     "@vitest/coverage-v8": "^3.2.4",
-    "rollup": "^4.44.2",
+    "rollup": "^4.45.1",
     "rollup-plugin-delete": "^3.0.1",
     "rollup-plugin-typescript2": "^0.36.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
-  }
+  },
+  "keywords": [
+    "sitemap",
+    "sitemap.xml",
+    "route path comparison",
+    "sitemap diff",
+    "sitemap difference",
+    "sitemap comparison",
+    "sitemap diff utility",
+    "sitemap difference utility",
+    "sitemap diff CLI",
+    "sitemap difference CLI",
+    "sitemap diff API",
+    "sitemap difference API"
+  ]
 }

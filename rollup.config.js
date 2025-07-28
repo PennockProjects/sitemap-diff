@@ -1,8 +1,9 @@
 import typescript from 'rollup-plugin-typescript2';
 import del from 'rollup-plugin-delete';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 export default {
-  external: ['fs', 'node-fetch', '@aws-sdk/client-s3', 'fast-xml-parser'], // External dependencies that should not be bundled
+  external: ['@aws-sdk/client-s3', '@aws-sdk/lib-storage'],  // External dependencies that should not be bundled
   input: 'src/index.ts',         // Entry point of the library
   output: [
     {
@@ -18,6 +19,7 @@ export default {
   ],
   plugins: [
     del({ targets: 'lib/*' }),                      // Clean the output directory before building
+    nodeResolve({ browser: false}),
     typescript({ useTsconfigDeclarationDir: true }) // Use TypeScript plugin for transpilation,
-  ],
+  ]
 }
