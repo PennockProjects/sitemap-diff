@@ -50,6 +50,7 @@ Examples:
 
 ## TODO
 - url diff including `loc`, `lastmode`, and `priority`
+- sitemap validation
 - sitemap index diff
 - sitemap index with sitemap recursive diff
 - CLI handling
