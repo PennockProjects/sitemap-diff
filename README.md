@@ -4,7 +4,7 @@ A set of utilities for fetching sitemap.xml files and comparing the routes and p
 One use case is to validate a change in the sitemap before updating it.
 
 ## Fetching Sitemap Files
-The three locations it can import a sitemap.xml file from are:
+As of 0.6.2, the three locations it can import a sitemap.xml file are:
 1. Local File System
 2. http or https URL
 3. AWS S3 Bucket
@@ -12,10 +12,12 @@ The three locations it can import a sitemap.xml file from are:
 The sitemap.xml file must have a `.xml` extension in all cases.
 
 ### Local File System
-Uses the node.js `fs` module to call `readFileSync` and `writeFileSync` functions to read and write local files. A relative file path contains the relative location of file, for example `./some/dir/local-sitemap.xml`.  
+Uses the node.js `fs` module to call `readFileSync` and `writeFileSync` functions to read and write local files. A relative file path contains the relative location of file, for example 
+- `./some/dir/local-sitemap.xml`.  
 
 ### HTTP or HTTPS URL
-Uses the node.js `node-fetch` module to call `fetch` function to get a sitemap from an http url.  The url must be resolvable from the context of the call and contain the full url., i.e. `https://pennockprojects.com/sitemap.xml`
+Uses the node.js `node-fetch` module to call `fetch` function to get a sitemap from an http url.  The url must be resolvable from the context of the call and contain the full url., i.e. 
+- `https://pennockprojects.com/sitemap.xml`
 
 ### AWS S3 Bucket URL
 Uses the node.js `@aws-sdk/client-s3` to call `S3Client`, `GetObjectCommand` functions. 
@@ -28,17 +30,23 @@ The AWS S3 URL has the format of:
   - optionally, the end can contain a suffix region: ":region://us-west-2", where "us-west-2" is replaced by your specific region string of the bucket.
 
 Examples:
-  - "s3://bucket-name/sitemap.xml"
-  - "s3://bucket-name/key-name/sitemap.xml:region://us-west-2"
+  - `s3://bucket-name/sitemap.xml`
+  - `s3://bucket-name/key-name/sitemap.xml:region://us-west-2`
 
-## Diff of Sitemap Files
+## Functions
+### 1. fetchParsePaths
+**Process a sitemap file: read, parse, and extract paths**
 
-### Paths
+  - `@param` sitemapFile - The string that is a path to the sitemap file (local, URL, or S3)
+  - `@returns` An array of paths extracted from the sitemap
 
-Ignores the 
+### 2. pathsDiff
+**Compare two sitemaps and return the differences**
 
-### Routes
-
+  - `@param` sitemap1 - The path to the first sitemap file
+  - `@param` sitemap2 - The path to the second sitemap file
+  - `@param` pathExcludes - An array of paths to exclude from the comparison
+  - `@returns` An object containing the comparison results
 
 ## TODO
 - url diff including `loc`, `lastmode`, and `priority`
