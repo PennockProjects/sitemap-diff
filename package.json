@@ -31,13 +31,18 @@
   "files": [
     "lib"
   ],
+  "bin": {
+    "sitemap-diff": "./lib/cli.js"
+  },
   "scripts": {
     "build": "rollup -c",
     "release-package": "npm run build && npx changeset publish",
     "test": "vitest",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "cli": "node ./lib/cli.js"
   },
   "dependencies": {
+    "commander": "^14.0.0",
     "fast-xml-parser": "^5.2.5",
     "fs": "^0.0.1-security"
   },
@@ -53,7 +58,7 @@
     "rollup": "^4.45.1",
     "rollup-plugin-delete": "^3.0.1",
     "rollup-plugin-typescript2": "^0.36.0",
-    "ts-node": "^10.9.2",
+    "rollup-plugin-version-injector": "^1.3.3",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },
