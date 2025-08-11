@@ -2,20 +2,6 @@
   "name": "@pennockprojects/sitemap-diff",
   "version": "0.7.0",
   "description": "Finds the differences between two sitemap.xml files located on a local file system, at a web http server, or on an Amazon AWS S3 storage bucket",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PennockProjects/sitemap-diff.git"
-  },
-  "author": {
-    "name": "John Pennock",
-    "email": "info@pennockprojects.com",
-    "url": "https://pennockprojects.com"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/PennockProjects/sitemap-diff/issues"
-  },
-  "homepage": "https://github.com/PennockProjects/sitemap-diff#readme",
   "type": "module",
   "main": "lib/index.cjs",
   "exports": {
@@ -36,8 +22,10 @@
   },
   "scripts": {
     "build": "rollup -c",
+    "build:watch": "rollup -c -w",
     "release-package": "npm run build && npx changeset publish",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:coverage": "vitest --coverage",
     "cli": "node ./lib/cli.js"
   },
@@ -62,6 +50,20 @@
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PennockProjects/sitemap-diff.git"
+  },
+  "author": {
+    "name": "John Pennock",
+    "email": "info@pennockprojects.com",
+    "url": "https://pennockprojects.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PennockProjects/sitemap-diff/issues"
+  },
+  "homepage": "https://github.com/PennockProjects/sitemap-diff#readme",
   "keywords": [
     "sitemap",
     "sitemap.xml",

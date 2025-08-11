@@ -50,11 +50,6 @@ export default [
       versionInjector({
         format: 'esm', // Format for version injection
         injectInComments: false, // Inject version in comments
-        // injectInTags: {
-        //   fileRegexp: /\.(ts|js)$/,
-        //   tagId: 'VI',
-        //   dateFormat: 'mmmm d, yyyy HH:MM:ss'
-        // }
       }),
     ],
     external: ['fs', 'path'], // Mark Node.js built-ins as external
