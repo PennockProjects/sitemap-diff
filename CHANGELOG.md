@@ -1,5 +1,11 @@
 # @pennockprojects/sitemap-diff
 
+## 0.7.1
+
+### Patch Changes
+
+- 49e4cd2: Some CLI help and params
+
 ## 0.7.0
 
 ### Minor Changes
