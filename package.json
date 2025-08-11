@@ -1,6 +1,6 @@
 {
   "name": "@pennockprojects/sitemap-diff",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Finds the differences between two sitemap.xml files located on a local file system, at a web http server, or on an Amazon AWS S3 storage bucket",
   "type": "module",
   "main": "lib/index.cjs",
