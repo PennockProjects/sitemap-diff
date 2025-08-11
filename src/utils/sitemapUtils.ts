@@ -30,13 +30,11 @@ export async function fetchParsePaths(sitemapFile: string): Promise<string[]> {
  * Compare two sitemaps and return the differences
  * @param sitemap1 - The path to the first sitemap file
  * @param sitemap2 - The path to the second sitemap file
- * @param pathExcludes - An array of paths to exclude from the comparison
  * @returns An object containing the comparison results
  */
 export async function pathsDiff(
   sitemap1: string,
-  sitemap2: string,
-  pathExcludes: string[]
+  sitemap2: string
 ): Promise<{
   sitemap1: string;
   sitemap2: string;
