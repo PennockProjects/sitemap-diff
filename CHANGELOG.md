@@ -1,5 +1,11 @@
 # @pennockprojects/sitemap-diff
 
+## 0.8.0
+
+### Minor Changes
+
+- c39404d: Added logger and support for logging.
+
 ## 0.7.1
 
 ### Patch Changes
