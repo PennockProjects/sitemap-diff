@@ -32,7 +32,7 @@ if (outputFile && (!isValidFilePath(outputFile) || !outputFile.endsWith('.json')
 
 (async () => {
   try {
-    const pathsDiffResult = await pathsDiff(sitemap1, sitemap2, []);
+    const pathsDiffResult = await pathsDiff(sitemap1, sitemap2);
 
     if (!pathsDiffResult) {
       console.error(`\nPaths from "${sitemap1}" and "${sitemap2}" are not valid arrays.`);

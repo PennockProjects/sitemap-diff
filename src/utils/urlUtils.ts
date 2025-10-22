@@ -1,3 +1,5 @@
+import logger from "./logger";
+
 /**
  * Fetch file from a URL
  * @param url - The URL of the file which should include the extension, e.g., https://example.com/sitemap.xml
@@ -8,14 +10,14 @@ export async function fetchTextFromUrlFile(url: string): Promise<string | null> 
     const response = await fetch(url);
 
     if (!response.ok) {
-      console.error(`Failed to fetch file: ${response.status} ${response.statusText}`);
+      logger.error(`Failed to fetch file: ${response.status} ${response.statusText}`);
       return null;
     }
 
     const fileContent = await response.text();
     return fileContent;
   } catch (error) {
-    console.error(`Error fetching file ${url} and converting to text: ${(error as Error).message}`);
+    logger.error(`Error fetching file ${url} and converting to text: ${(error as Error).message}`);
     return null;
   }
 }

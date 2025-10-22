@@ -3,6 +3,13 @@ A set of utilities for fetching sitemap.xml files and comparing the routes and p
 
 One use case is to validate a change in the sitemap before updating it.
 
+## Installing
+To install `@pennockprojects/sitemap-diff` use your favorite package manager, instructions for using npm are:
+
+```bash
+npm install @pennockprojects/sitemap-diff --save-dev
+```
+
 ## Fetching Sitemap Files
 As of 0.6.2, the three locations it can import a sitemap.xml file are:
 1. Local File System
@@ -37,15 +44,17 @@ Examples:
 ### 1. fetchParsePaths
 **Process a sitemap file: read, parse, and extract paths**
 
-  - `@param` sitemapFile - The string that is a path to the sitemap file (local, URL, or S3)
+  - `@param` sitemapFile - the location (file, URL, S3) the sitemap file
+  - `@param` options - Optional parameters for additional configurations (e.g., logLevel)
   - `@returns` An array of paths extracted from the sitemap
 
 ### 2. pathsDiff
 **Compare two sitemaps and return the differences**
 
-  - `@param` sitemap1 - The path to the first sitemap file
-  - `@param` sitemap2 - The path to the second sitemap file
-  - `@param` pathExcludes - An array of paths to exclude from the comparison
+  - `@param` sitemap1 - The location (file, URL, S3) to first sitemap file
+  - `@param` sitemap2 - The location (file, URL, S3) to second sitemap file
+  - `@param` options - Optional parameters for additional configurations (e.g., logLevel)
+ 
   - `@returns` An object containing the comparison results
 
 ## TODO
@@ -53,7 +62,4 @@ Examples:
 - sitemap validation
 - sitemap index diff
 - sitemap index with sitemap recursive diff
-- CLI handling
-- CLI bin
-- options parameters to disable/configure things like console.log output and defaults.
-
+  

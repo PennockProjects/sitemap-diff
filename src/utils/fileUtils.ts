@@ -1,4 +1,5 @@
 import fs from 'fs';
+import logger from "./logger";
 
 /**
  * Read a local file
@@ -10,7 +11,7 @@ export function readLocalFile(filePath: string): string | null {
     const fileContent = fs.readFileSync(filePath, 'utf8');
     return fileContent;
   } catch (error) {
-    console.error(`Error while reading ${filePath}: ${(error as Error).message}`);
+    logger.error(`Error while reading ${filePath}: ${(error as Error).message}`);
     return null;
   }
 }
@@ -23,7 +24,7 @@ export function readLocalFile(filePath: string): string | null {
  */
 export function writeJsonToFile(outputFile: string, jsonData: Record<string, unknown>): boolean {
   if (!isValidFilePath(outputFile) || !outputFile.endsWith('.json')) {
-    console.error('Invalid output file name. Must be a valid JSON file (e.g., "output.json").');
+    logger.error('Invalid output file name. Must be a valid JSON file (e.g., "output.json").');
     return false; // Indicate failure
   }
 
@@ -32,7 +33,7 @@ export function writeJsonToFile(outputFile: string, jsonData: Record<string, unk
     fs.writeFileSync(outputFile, jsonString, 'utf8');
     return true; // Indicate success
   } catch (error) {
-    console.error(`Error writing JSON to file: ${(error as Error).message}`);
+    logger.error(`Error writing JSON to file: ${(error as Error).message}`);
     return false; // Indicate failure
   }
 }

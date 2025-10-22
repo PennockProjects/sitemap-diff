@@ -1,4 +1,9 @@
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, GetObjectCommand, HeadObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import logger from "./logger";
+/**
+ * version 0.8.1
+ * @file awsS3Utils.ts
+ */
 
 /**
  * Fetch a file from an S3 bucket using an S3 URL
@@ -9,7 +14,7 @@ export async function fetchFromS3(s3Url: string): Promise<string | null> {
   const s3Details = parseS3Url(s3Url);
 
   if (!s3Details) {
-    console.error(`Failed to parse S3 URL: ${s3Url}`);
+    logger.error(`Failed to parse S3 URL: ${s3Url}`);
     return null;
   }
 
@@ -24,8 +29,79 @@ export async function fetchFromS3(s3Url: string): Promise<string | null> {
     const response = await s3Client.send(command);
     return response.Body?.transformToString() || null; // Convert the stream to a string
   } catch (error) {
-    console.error(`fetchFromS3 GetObject Error: ${error.message}`);
+    logger.error(`fetchFromS3 GetObject Error: ${error.message}`);
     return null;
+  }
+}
+
+/**
+ * Check if an object exists in an S3 bucket
+ * @param s3Url - The S3 URL of the object to check (e.g., "s3://bucket-name/key:region://region-name")
+ * @returns True if the object exists, false otherwise
+ */
+export async function checkObject(s3Url: string): Promise<boolean> {
+  const s3Details = parseS3Url(s3Url);
+
+  if (!s3Details) {
+    logger.error(`Failed to parse S3 URL: ${s3Url}`);
+    return false;
+  }
+
+  const { bucketName, key, region } = s3Details;
+
+  const s3Client = new S3Client(region ? { region: region } : {});
+  try {
+    const command = new HeadObjectCommand({
+      Bucket: bucketName,
+      Key: key,
+    });
+    await s3Client.send(command);
+    return true; // If the command succeeds, the object exists
+  } catch (error) {
+    if (error.name === 'NotFound') {
+      return false; // Object does not exist
+    }
+    logger.error(`Error checking S3 object existence: ${error.message}`);
+    return false;
+  }
+}
+
+/**
+ * Check if multiple objects exist in an S3 bucket
+ * @param s3Url - The S3 URL of the bucket (e.g., "s3://bucket-name:region://region-name")
+ * @param keys - An array of object keys to check
+ * @returns An object with the keys as properties and their existence as boolean values
+ */
+export async function checkObjects(s3Url: string, keys: string[]): Promise<Record<string, boolean>> {
+  const s3Details = parseS3Url(s3Url);
+
+  if (!s3Details) {
+    logger.error(`Failed to parse S3 URL: ${s3Url}`);
+    return keys.reduce((acc, key) => ({ ...acc, [key]: false }), {}); // Return false for all keys
+  }
+
+  const { bucketName, region } = s3Details;
+
+  const s3Client = new S3Client(region ? { region: region } : {});
+  try {
+    const command = new ListObjectsV2Command({
+      Bucket: bucketName,
+    });
+    const response = await s3Client.send(command);
+
+    // Extract the list of existing keys from the response
+    const existingKeys = response.Contents?.map((item) => item.Key) || [];
+
+    // Check if each key exists in the list of existing keys
+    const result: Record<string, boolean> = {};
+    keys.forEach((key) => {
+      result[key] = existingKeys.includes(key);
+    });
+
+    return result;
+  } catch (error) {
+    logger.error(`Error checking S3 objects existence: ${error.message}`);
+    return keys.reduce((acc, key) => ({ ...acc, [key]: false }), {}); // Return false for all keys
   }
 }
 
@@ -70,7 +146,7 @@ export function parseS3Url(s3Url: string): { bucketName: string; key: string; re
   const region = getRegionFromS3Url(s3Url);
 
   if (!bucketName || !key) {
-    console.error(`Invalid S3 URL format: ${s3Url}`);
+    logger.error(`Invalid S3 URL format: ${s3Url}`);
     return null;
   }
 

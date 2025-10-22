@@ -1,4 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
+import logger from "./logger";
 
 /**
  * Parse the sitemap XML string into a JavaScript object
@@ -11,7 +12,7 @@ export function parseSitemapXmlFast(xmlString: string): Record<string, any> | nu
     const result = parser.parse(xmlString);
     return result;
   } catch (error) {
-    console.error(`Error parsing XML: ${(error as Error).message}`);
+    logger.error(`Error parsing XML: ${(error as Error).message}`);
     return null;
   }
 }
@@ -23,33 +24,33 @@ export function parseSitemapXmlFast(xmlString: string): Record<string, any> | nu
  */
 export function parseRoutes(sitemapXML: string): string[] | null {
   if (!sitemapXML) {
-    console.error('Sitemap XML content is null');
+    logger.error('Sitemap XML content is null');
     return null;
   }
 
   const parsedFile = parseSitemapXmlFast(sitemapXML);
   if (!parsedFile) {
-    console.error('Failed to parse sitemap XML');
+    logger.error('Failed to parse sitemap XML');
     return null;
   }
 
   if (parsedFile.urlset || parsedFile.urlset === '') {
     if(parsedFile.urlset?.urlset) {
-      console.error(`\tERROR: Nested <urlset> found in <urlset> element. This is not supported.`);
+      logger.error(`\tERROR: Nested <urlset> found in <urlset> element. This is not supported.`);
       return null;
     }
     if (parsedFile.urlset?.url === undefined || parsedFile.urlset?.url === null || parsedFile.urlset?.url === '') {
-      console.warn(`\tWARNING: <urlset> does not contain <url> elements. Returning empty array.`)
+      logger.warn(`\tWARNING: <urlset> does not contain <url> elements. Returning empty array.`)
       return [];
     } else if (Array.isArray(parsedFile.urlset.url)) {
       const routesFound = parsedFile.urlset.url.map((item: { loc: string; lastmod?: string; priority?: number }) => {
         if (!item.loc) {
-          console.error(`\tERROR: Missing <loc> field in <url> element with lastmod: ${item.lastmod} priority: ${item.priority}`);
+          logger.error(`\tERROR: Missing <loc> field in <url> element with lastmod: ${item.lastmod} priority: ${item.priority}`);
           return null;
         }
     
         if (item.lastmod && isNaN(Date.parse(item.lastmod))) {
-          console.warn(`\tWARNING: Invalid <lastmod> date format in <url><loc>: ${item.loc}`);
+          logger.warn(`\tWARNING: Invalid <lastmod> date format in <url><loc>: ${item.loc}`);
         }
     
         return item.loc;
@@ -58,14 +59,14 @@ export function parseRoutes(sitemapXML: string): string[] | null {
         // Warn for duplicate routes
         const duplicateRoutes = routesFound.filter((route, index, self) => self.indexOf(route) !== index);
         if (duplicateRoutes.length > 0) {
-          console.warn(`\tWARNING: Duplicate routes found in the sitemap: ${[...new Set(duplicateRoutes)].join(', ')}`);
+          logger.warn(`\tWARNING: Duplicate routes found in the sitemap: ${[...new Set(duplicateRoutes)].join(', ')}`);
         }
     
       return routesFound;
     }
   }
 
-  console.error('\tERROR: Unsupported sitemap.xml file. No <urlset>, or it was not empty, or it did not contain <url>(s)');
+  logger.error('\tERROR: Unsupported sitemap.xml file. No <urlset>, or it was not empty, or it did not contain <url>(s)');
   return null;
 }
 
@@ -90,7 +91,7 @@ export function parsePaths(sitemapXML: string, excludePaths?: string[]): string[
       const urlObj = new URL(route);
       return urlObj.pathname; // return path
     } catch (error) {
-      console.error(`Invalid URL: ${route}`);
+      logger.error(`Invalid URL: ${route}`);
       return null;
     }
   }).filter((path): path is string => path !== null); // Filter out null values
@@ -110,23 +111,23 @@ export function parsePaths(sitemapXML: string, excludePaths?: string[]): string[
  */
 export function isValidSitemapUrl(url: { loc: string; lastmod?: string; priority?: number; changefreq?: string }): boolean {
   if (!url || typeof url !== 'object') {
-    console.error('Invalid sitemap: <url> element is not an object');
+    logger.error('Invalid sitemap: <url> element is not an object');
     return false;
   }
   if (!url.loc) {
-    console.error('Invalid sitemap: Missing <loc> in <url> element');
+    logger.error('Invalid sitemap: Missing <loc> in <url> element');
     return false;
   }
   if (url.lastmod && isNaN(Date.parse(url.lastmod))) {
-    console.error(`Invalid sitemap: Invalid <lastmod> date format in <url> element with loc: ${url.loc}`);
+    logger.error(`Invalid sitemap: Invalid <lastmod> date format in <url> element with loc: ${url.loc}`);
     return false;
   }
   if (url.priority !== undefined && (url.priority < 0 || url.priority > 1)) {
-    console.error(`Invalid sitemap: <priority> must be between 0.0 and 1.0 in <url> element with loc: ${url.loc}`);
+    logger.error(`Invalid sitemap: <priority> must be between 0.0 and 1.0 in <url> element with loc: ${url.loc}`);
     return false;
   }
   if (url.changefreq && !['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'].includes(url.changefreq)) {
-    console.error(`Invalid sitemap: Invalid <changefreq> value in <url> element with loc: ${url.loc}`);
+    logger.error(`Invalid sitemap: Invalid <changefreq> value in <url> element with loc: ${url.loc}`);
     return false;
   }
   return true;
@@ -139,11 +140,11 @@ export function isValidSitemapUrl(url: { loc: string; lastmod?: string; priority
  */
 export function isValidSitemapIndex(sitemap: { loc: string; lastmod?: string }): boolean {
   if (!sitemap.loc) {
-    console.error('Invalid sitemap index: Missing <loc> in <sitemap> element');
+    logger.error('Invalid sitemap index: Missing <loc> in <sitemap> element');
     return false;
   }
   if (sitemap.lastmod && isNaN(Date.parse(sitemap.lastmod))) {
-    console.error(`Invalid sitemap index: Invalid <lastmod> date format in <sitemap> element with loc: ${sitemap.loc}`);
+    logger.error(`Invalid sitemap index: Invalid <lastmod> date format in <sitemap> element with loc: ${sitemap.loc}`);
     return false;
   }
   return true;
@@ -156,13 +157,13 @@ export function isValidSitemapIndex(sitemap: { loc: string; lastmod?: string }):
  */
 export function parseValidate(sitemapXML: string): Record<string, any> | null {
   if (!sitemapXML) {
-    console.error('Sitemap XML content is empty');
+    logger.error('Sitemap XML content is empty');
     return null;
   }
 
   const parsedFile = parseSitemapXmlFast(sitemapXML);
   if (!parsedFile) {
-    console.error('Failed to parse sitemap XML');
+    logger.error('Failed to parse sitemap XML');
     return null;
   }
 
@@ -180,7 +181,7 @@ export function parseValidate(sitemapXML: string): Record<string, any> | null {
         parsedFile.sitemapindex.sitemap = [parsedFile.sitemapindex.sitemap]; // Convert to array
         return parsedFile;
       } else {
-        console.error('Invalid sitemap index structure');
+        logger.error('Invalid sitemap index structure');
         return null;
       }
     }
@@ -195,15 +196,15 @@ export function parseValidate(sitemapXML: string): Record<string, any> | null {
           return isValidSitemapUrl(url);
         });
       } else if (typeof parsedFile.urlset.url === 'object' && isValidSitemapUrl(parsedFile.urlset.url)) {
-        console.error('Converting single url into a array with single element'); // Debugging message
+        logger.error('Converting single url into a array with single element'); // Debugging message
         parsedFile.urlset.url = [parsedFile.urlset.url]; // Convert single object to array
         isValidSitemap = true;
       } else {
         isValidSitemap = false;
-        console.error('Invalid sitemap: <urlset> does not contain valid <url> elements');
+        logger.error('Invalid sitemap: <urlset> does not contain valid <url> elements');
       }
     } else {
-      console.error('Invalid sitemap: <urlset> does not contain <url> elements');
+      logger.error('Invalid sitemap: <urlset> does not contain <url> elements');
       isValidSitemap = false;
     }
   } else {
@@ -211,9 +212,9 @@ export function parseValidate(sitemapXML: string): Record<string, any> | null {
   }
 
   if(!isValidSitemap) {
-    console.error('Invalid sitemap structure: Neither a valid sitemap index nor a valid sitemap');
+    logger.error('Invalid sitemap structure: Neither a valid sitemap index nor a valid sitemap');
   } else {
-    console.log('Sitemap is valid', parsedFile);
+    logger.info('Sitemap is valid', parsedFile);
   }
   return isValidSitemap || isValidIndex ? parsedFile : null;
 }
