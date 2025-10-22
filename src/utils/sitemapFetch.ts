@@ -1,6 +1,7 @@
 import { isValidFilePath, readLocalFile } from './fileUtils';
 import { fetchTextFromUrlFile } from './urlUtils';
 import { fetchFromS3 } from './awsS3Utils';
+import logger from "./logger";
 
 /**
  * Get the XML content from a sitemap file, which can be a local file, a URL, or an S3 bucket.
@@ -9,23 +10,23 @@ import { fetchFromS3 } from './awsS3Utils';
  */
 export async function fetchSitemap(sitemapPath: string): Promise<string | null> {
   if (!sitemapPath) {
-    console.error('No sitemap url or file path provided.');
+    logger.error('No sitemap url or file path provided.');
     return null; // Invalid path
   }
   const parsedPath = parseSitemapPath(sitemapPath);
   if (!parsedPath) {
-    console.error(`Invalid sitemap path: ${sitemapPath}`);
+    logger.error(`Invalid sitemap path: ${sitemapPath}`);
     return null; // Invalid path
   }
   
   if (parsedPath.urlLocationString) {
-    console.log(`\t${sitemapPath} - Fetching URL file`);
+    logger.debug(`   ${sitemapPath} - Fetching URL file`);
     return await fetchTextFromUrlFile(parsedPath.urlLocationString);
   } else if (parsedPath.s3LocationString) {
-    console.log(`\t${sitemapPath} - Getting S3 file`);
+    logger.debug(`   ${sitemapPath} - Getting S3 file`);
     return await fetchFromS3(parsedPath.s3LocationString);
   } else if (parsedPath.fileLocationString) {
-    console.log(`\t${sitemapPath} - Reading local file`);
+    logger.debug(`   ${sitemapPath} - Reading local file`);
     return readLocalFile(parsedPath.fileLocationString);
   }
 

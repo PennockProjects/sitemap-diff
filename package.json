@@ -23,10 +23,12 @@
   "scripts": {
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
+    "package:publish:check": "npm run build && npm run test:coverage",
     "release-package": "npm run build && npx changeset publish",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest --coverage",
+    "test:coverage": "vitest run --coverage",
+    "test:coverage:watch": "vitest --coverage",
     "cli": "node ./lib/cli.js"
   },
   "dependencies": {
